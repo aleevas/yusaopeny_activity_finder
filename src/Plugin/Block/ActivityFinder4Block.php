@@ -120,37 +120,41 @@ class ActivityFinder4Block extends BlockBase implements ContainerFactoryPluginIn
 
     // Remove empty programs and subprograms.
     $results = $backend->runProgramSearch([], 0);
-    $facets = $results['facets']['field_activity_category'];
     $activeSubPrograms = [];
-    foreach ($facets as $item) {
-      if (isset($item['id']) && !empty($item['id'])) {
-        $activeSubPrograms[] = $item['id'];
+    if (isset($results['facets']['field_activity_category'])) {
+      $facets = $results['facets']['field_activity_category'];
+      foreach ($facets as $item) {
+        if (isset($item['id']) && !empty($item['id'])) {
+          $activeSubPrograms[] = $item['id'];
+        }
       }
-    }
-    foreach ($activities as $indexProgram => $program) {
-      if (isset($program['value'])) {
-        foreach ($program['value'] as $indexSubProgram => $subProgram) {
-          if (!in_array($subProgram['value'], $activeSubPrograms) ||
-            ($limit_by_category && !in_array($subProgram['value'], $limit_by_category))) {
-            unset($activities[$indexProgram]['value'][$indexSubProgram]);
+      foreach ($activities as $indexProgram => $program) {
+        if (isset($program['value'])) {
+          foreach ($program['value'] as $indexSubProgram => $subProgram) {
+            if (!in_array($subProgram['value'], $activeSubPrograms) ||
+              ($limit_by_category && !in_array($subProgram['value'], $limit_by_category))) {
+              unset($activities[$indexProgram]['value'][$indexSubProgram]);
+            }
           }
         }
       }
-    }
-    foreach ($activities as $indexProgram => $program) {
-      if (empty($program['value'])) {
-        unset($activities[$indexProgram]);
-      }
-    }
 
-    // Sort activity groups and activities in alphabetical order.
-    usort($activities, function ($a, $b) {
-      return $a['label'] <=> $b['label'];
-    });
-    foreach ($activities as &$activity) {
-      usort($activity['value'], function ($a, $b) {
+      foreach ($activities as $indexProgram => $program) {
+        if (empty($program['value'])) {
+          unset($activities[$indexProgram]);
+        }
+      }
+
+
+      // Sort activity groups and activities in alphabetical order.
+      usort($activities, function ($a, $b) {
         return $a['label'] <=> $b['label'];
       });
+      foreach ($activities as &$activity) {
+        usort($activity['value'], function ($a, $b) {
+          return $a['label'] <=> $b['label'];
+        });
+      }
     }
 
     $sort_options = $backend->getSortOptions();

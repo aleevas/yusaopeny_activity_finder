@@ -556,7 +556,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
           }
         }
         // Pass counters to static week filter.
-        if ($f == 'static_weeks_filter') {
+        if ($f == 'static_weeks_filter' && isset($facets['af_weeks'])) {
           $facets_m[$f][$i]['count'] = 0;
           foreach ($facets['af_weeks'] as $info) {
             if ('"' . $item['value'] . '"' == $info['filter']) {
