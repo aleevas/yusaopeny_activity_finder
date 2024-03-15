@@ -84,6 +84,15 @@
                     <span class="info" v-html="item.price"></span>
                   </span>
                 </div>
+
+                <div v-if="item.availability_note" class="item-detail">
+                  <i class="fa fa-users"></i>
+                  <span>
+                    <!--eslint-disable-next-line-->
+                    <span class="info" v-html="item.availability_note"></span>
+                  </span>
+                </div>
+
                 <AvailableSpots
                   v-if="!disableSpotsAvailable && item.spots_available !== ''"
                   :spots="Number(item.spots_available)"
