@@ -38,9 +38,9 @@
                 <div v-if="item.dates" class="item-detail dates">
                   <font-awesome-icon icon="calendar" />
                   <span>
-                    <span class="info">{{ item.dates }}</span>
-                    <br />
-                    <span v-if="item.days" class="details">{{ item.days }}</span>
+                    <span class="info" v-for="(date, index) in item.dates" :key="index">
+                      {{ date }}<br>
+                    </span>
                   </span>
                 </div>
 

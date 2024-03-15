@@ -356,6 +356,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     $locations_info = $this->getLocationsInfo();
     /** @var \Drupal\search_api\Item\Item $result_item */
     foreach ($results->getResultItems() as $result_item) {
+      $full_dates = [];
       try {
         $entity = $result_item->getOriginalObject()->getValue();
         if (!$entity) {
@@ -387,7 +388,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
         $from_md = $_from->format('M d');
         $to_md = $_to->format('M d');
         // For equal starting and ending dates show only starting date.
-        $full_dates = $from_md == $to_md ? $from_md : $from_md . '-' . $to_md;
+        $full_dates[] = $from_md == $to_md ? $from_md : $from_md . '-' . $to_md;
 
         // It is necessary to calculate not the number of full weeks,
         // but the number of sessions that takes place in the specified period.
