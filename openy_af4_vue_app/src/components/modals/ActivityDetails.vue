@@ -13,7 +13,7 @@
           <div class="col-12 col-xs-12 col-md-6 left-wrapper">
             <div class="left">
               <div class="title">{{ item.name }}</div>
-              <div class="description">{{ item.description }}</div>
+              <div class="description" v-html="item.description"></div>
               <div v-if="item.ages" class="row ages">
                 <div class="col-3 col-xs-3">
                   <strong>{{ 'Ages:' | t }}</strong>
