@@ -590,6 +590,8 @@ export default {
     },
     updateUrlString() {
       this.updateUrl()
+      // Scroll to top.
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     },
     step(val, oldVal) {
       // Check if we returned to previously completed step - using browser back button - then we
