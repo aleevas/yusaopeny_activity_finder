@@ -901,7 +901,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
         }
       }
       else {
-        if ($ages[$i] <= 18 && $ages[$i] != 0) {
+        if (isset($ages[$i]) && $ages[$i] <= 18 && $ages[$i] != 0) {
           $plus = '';
           if (isset($ages[$i + 1]) && $ages[$i + 1] == 0) {
             $plus = ' + ';
@@ -909,7 +909,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
           $ages_y[$i] = $ages[$i] . \Drupal::translation()->formatPlural($ages[$i], ' month', ' months' . $plus);
         }
         else {
-          if (isset($ages[$i + 1]) && $ages[$i] == 0) {
+          if (isset($ages[$i], $ages[$i + 1]) && $ages[$i] == 0 && $ages[$i + 1]) {
             $ages_y[$i] = $ages[$i];
           }
         }
