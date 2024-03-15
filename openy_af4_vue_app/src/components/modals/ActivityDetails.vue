@@ -30,6 +30,8 @@
                 {{ 'Learn more about this program' | t }}
                 <i class="fa fa-external-link fa-external-link-alt"></i>
               </a>
+              <!--eslint-disable-next-line-->
+              <div class="af-text-field" v-html="item.af_text_field"></div>
             </div>
           </div>
           <div class="col-12 col-xs-12 col-md-6 right-wrapper">
@@ -411,6 +413,12 @@ export default {
 
     .learn-more {
       color: $af-blue;
+    }
+
+    .af-text-field {
+      font-size: 12px;
+      line-height: 18px;
+      margin-top: 10px;
     }
   }
 
