@@ -32,7 +32,7 @@
                   :id="location.value"
                   v-model="selectedLocations"
                   type="checkbox"
-                  :value="location.value"
+                  :value="location.label"
                   :disabled="isDisabled(location.value)"
                   @change="onChange(location)"
                 />
@@ -147,7 +147,7 @@ export default {
     if (!this.facetCount(this.homeBranchId)) {
       return
     }
-    this.selectedLocations.push(this.homeBranchId)
+    this.selectedLocations.push(window.drupalSettings.home_branch.hb_menu_selector.locations[this.homeBranchId])
   },
   methods: {
     onChange(location) {
