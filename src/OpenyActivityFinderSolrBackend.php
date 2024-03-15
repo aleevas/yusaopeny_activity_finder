@@ -466,7 +466,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
           ['query' => ['url' => $entity->field_session_reg_link->uri]])
           ->toString(TRUE)->getGeneratedUrl(),
         'description' => html_entity_decode(strip_tags(text_summary($entity->field_session_description->value ?? '', $entity->field_session_description->format, 600) ?? '')),
-        'ages' => $this->convertData([$entity->field_session_min_age->value, $entity->field_session_max_age->value ?? '0']),
+        'ages' => $this->convertData(isset($entity->field_session_min_age_week->value) ? $entity->field_session_min_age_week->value : '0', [$entity->field_session_min_age->value, isset($entity->field_session_max_age->value) ? $entity->field_session_max_age->value : '0']),
         'gender' => !empty($entity->field_session_gender->value) ? $entity->field_session_gender->value : '',
         // We keep empty variables in order to have the same structure with other backends (e.g. Daxko) for avoiding unexpected errors.
         'program_id' => $sub_category->id(),
@@ -875,13 +875,15 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
   /**
    * Date months to years transformation.
    *
+   * @param int $min_age_week
+   *   Min age value in weeks.
    * @param array $ages
    *   Array with min and max age values.
    *
    * @return string
    *   String with month or year.
    */
-  public function convertData($ages = []) {
+  public function convertData($min_age_week, $ages = []) {
     $ages_y = [];
     for ($i = 0; $i < count($ages); $i++) {
       if ($ages[$i] > 18) {
@@ -921,6 +923,11 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
         }
       }
     }
+    // Add week display only when min age is empty.
+    if ($min_age_week > 0 && $ages[0] == 0) {
+      array_unshift($ages_y, $min_age_week . \Drupal::translation()->formatPlural($min_age_week, ' week', ' weeks'));
+    }
+
     return implode(' - ', $ages_y);
   }
 
