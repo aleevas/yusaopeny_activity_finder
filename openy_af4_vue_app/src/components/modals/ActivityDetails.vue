@@ -80,7 +80,8 @@
                 <div v-if="item.price" class="item-detail price">
                   <font-awesome-icon icon="money-bill" />
                   <span>
-                    <span class="info">{{ item.price }}</span>
+                    <!--eslint-disable-next-line-->
+                    <span class="info" v-html="item.price"></span>
                   </span>
                 </div>
                 <AvailableSpots
