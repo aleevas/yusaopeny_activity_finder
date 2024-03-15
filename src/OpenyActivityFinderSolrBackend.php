@@ -696,7 +696,7 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       $nids = $this->entityTypeManager
         ->getStorage('node')
         ->getQuery()
-        ->condition('type', ['branch', 'camp', 'facility'], 'IN')
+        ->condition('type', ['branch'], 'IN')
         ->condition('status', 1)
         ->sort('title', 'ASC')
         ->addTag('af_locations')
@@ -801,8 +801,6 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     // Array with predefined keys for sorting in application location filters.
     $locations = [
       'branch' => [],
-      'camp' => [],
-      'facility' => [],
     ];
     $locationsInfo = $this->getLocationsInfo();
     foreach ($locationsInfo as $key => $item) {
