@@ -26,10 +26,8 @@
                 </div>
                 <div class="col-9 col-xs-9">{{ item.gender }}</div>
               </div>
-              <a :href="item.link" target="_blank" class="learn-more">
-                {{ 'Learn more about this program' | t }}
-                <i class="fa fa-external-link fa-external-link-alt"></i>
-              </a>
+              <!--eslint-disable-next-line-->
+              <div v-html="item.learn_more"></div>
               <!--eslint-disable-next-line-->
               <div class="af-text-field" v-html="item.af_text_field"></div>
             </div>
@@ -413,6 +411,10 @@ export default {
 
     .learn-more {
       color: $af-blue;
+    }
+
+    .label-for-field-learn-more {
+      display: none;
     }
 
     .af-text-field {
