@@ -45,7 +45,9 @@
             :disable-spots-available="disableSpotsAvailable"
             @showActivityDetailsModal="showActivityDetailsModal($event)"
           />
-            <div class="placeholder__insert_adjacent_promo"></div>
+          <YGBWAds
+              :selected-activities="data.facets.field_activity_category"
+          />
           <ResultsList
             :results="data.table.slice(2)"
             :ages="ages"
@@ -95,6 +97,7 @@ import BookmarkedItemsModal from '@/components/modals/BookmarkedItems.vue'
 import BookmarkFeatureModal from '@/components/modals/BookmarkFeature.vue'
 import BookmarkIcon from '@/components/BookmarkIcon'
 import ResultsList from '@/components/ResultsList.vue'
+import YGBWAds from '@/components/YGBWAds'
 
 export default {
   name: 'Results',
@@ -104,7 +107,8 @@ export default {
     BookmarkedItemsModal,
     BookmarkFeatureModal,
     BookmarkIcon,
-    ResultsList
+    ResultsList,
+    YGBWAds
   },
   props: {
     data: {

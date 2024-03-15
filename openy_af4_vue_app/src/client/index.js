@@ -3,6 +3,7 @@ import axios from 'axios'
 const DEFAULT = 'af/get-data'
 const SESSION_DATA = 'af/api/v1/session-data'
 const MORE_INFO = 'af/more-info'
+const YGBW_ADS = 'ads'
 
 const client = flag => {
   let url = ''
@@ -13,6 +14,10 @@ const client = flag => {
 
     case 'more_info':
       url = MORE_INFO
+      break
+
+    case 'ygbw_ads':
+      url = YGBW_ADS
       break
 
     default:
