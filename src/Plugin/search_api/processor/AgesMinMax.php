@@ -107,7 +107,7 @@ class AgesMinMax extends ProcessorPluginBase {
     $entity = $object->getValue();
     if ($entity->hasField('field_session_min_age') && $entity->hasField('field_session_max_age')) {
       $min_age = $entity->field_session_min_age->value;
-      $max_age = $entity->field_session_max_age->value;
+      $max_age = ($entity->field_session_max_age->value > 0 ? $entity->field_session_max_age->value-- : $entity->field_session_max_age->value);
       if (empty($min_age)) {
         // Set min age as 0 years if min age was not set in the session.
         $min_age = 0;
@@ -115,6 +115,9 @@ class AgesMinMax extends ProcessorPluginBase {
       if (empty($max_age)) {
         // Set max age as 100 years if max age was not set in the session.
         $max_age = 100 * 12;
+      }
+      elseif ($max_age > 0) {
+        $max_age--;
       }
       if ($max_age - $min_age < 6) {
         $range = [$min_age];
