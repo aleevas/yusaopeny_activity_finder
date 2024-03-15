@@ -12,7 +12,7 @@
           :id="id + '-location-' + item.value"
           v-model="selectedLocations"
           type="checkbox"
-          :value="item.value"
+          :value="item.label"
         />
         <label :for="id + '-location-' + item.value">
           {{ item.label }}
@@ -94,7 +94,7 @@ export default {
     subFiltersCount(index) {
       let result = 0
       this.selectedLocations.forEach(item => {
-        if (this.locations[index].value.find(location => location.value === item)) {
+        if (this.locations[index].value.find(location => location.label === item)) {
           result++
         }
       })

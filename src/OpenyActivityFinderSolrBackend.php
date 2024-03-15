@@ -283,14 +283,21 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
     }
 
     if (!empty($parameters['locations'])) {
-      $locations_nids = explode(',', rawurldecode($parameters['locations']));
+      $locations_param = explode(',', rawurldecode($parameters['locations']));
+      $locations = [];
       // Map nids to titles.
       $locations_info = $this->getLocationsInfo();
       foreach ($locations_info as $key => $item) {
-        if (in_array($item['nid'], $locations_nids)) {
+        if (in_array($item['nid'], $locations_param)) {
+          $idx = array_search($item['nid'], $locations_param);
           $locations[] = $key;
+          unset($locations_param[$idx]);
         }
       }
+
+      $locations = array_merge($locations, $locations_param);
+      $locations = array_unique($locations);
+
       $query->addCondition('field_session_location', $locations, 'IN');
     }
 
