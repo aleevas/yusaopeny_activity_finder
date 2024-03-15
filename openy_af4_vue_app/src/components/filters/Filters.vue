@@ -22,6 +22,12 @@
             :max-ages="maxAges"
             :facets="data.facets.static_age_filter ? data.facets.static_age_filter : []"
           />
+          <MonthsFilter
+            :id="id + '-months-filter'"
+            v-model="selectedMonths"
+            :months="months"
+            :facets="data.facets.static_months_filter ? data.facets.static_months_filter : []"
+          />
           <DaysFilter
             v-if="legacyMode && !weeksFilter"
             :id="id + '-days-filter'"
@@ -102,6 +108,7 @@ import DaysTimesFilter from '@/components/filters/DaysTimes.vue'
 import WeeksFilter from '@/components/filters/Weeks.vue'
 import LocationsFilter from '@/components/filters/Locations.vue'
 import ActivitiesFilter from '@/components/filters/Activities.vue'
+import MonthsFilter from '@/components/filters/Months.vue';
 
 export default {
   name: 'Filters',
@@ -112,7 +119,8 @@ export default {
     DaysTimesFilter,
     WeeksFilter,
     LocationsFilter,
-    ActivitiesFilter
+    ActivitiesFilter,
+    MonthsFilter
   },
   props: {
     id: {
@@ -148,6 +156,10 @@ export default {
       required: true
     },
     initialAges: {
+      type: Array,
+      required: true
+    },
+    initialMonths: {
       type: Array,
       required: true
     },
@@ -210,7 +222,11 @@ export default {
     bsVersion: {
       type: Number,
       required: true
-    }
+    },
+    months: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -219,7 +235,8 @@ export default {
       selectedDaysTimes: this.initialDaysTimes,
       selectedWeeks: this.initialWeeks,
       selectedLocations: this.initialLocations,
-      selectedActivities: this.initialActivities
+      selectedActivities: this.initialActivities,
+      selectedMonths: this.initialMonths
     }
   },
   computed: {
@@ -228,7 +245,8 @@ export default {
         this.selectedAges.length +
         this.selectedDays.length +
         this.selectedDaysTimes.length +
-        this.selectedWeeks.length
+        this.selectedWeeks.length +
+        this.selectedMonths.length
       )
     },
     activityFiltersCount() {
@@ -244,6 +262,7 @@ export default {
 
       return (
         !this.isEqual(this.selectedAges, this.initialAges) ||
+        !this.isEqual(this.selectedMonths, this.initialMonths) ||
         !this.isEqual(this.selectedDays, this.initialDays) ||
         !this.isEqual(this.selectedDaysTimes, this.initialDaysTimes) ||
         !this.isEqual(this.selectedWeeks, this.initialWeeks) ||
@@ -262,6 +281,9 @@ export default {
     initialAges() {
       this.selectedAges = this.initialAges
     },
+    initialMonths() {
+      this.selectedMonths = this.initialMonths
+    },
     initialDays() {
       this.selectedDays = this.initialDays
     },
@@ -276,6 +298,9 @@ export default {
     },
     initialActivities() {
       this.selectedActivities = this.initialActivities
+    },
+    selectedMonths() {
+      this.filterChange({ filter: 'selectedMonths', value: this.selectedMonths })
     },
     selectedAges() {
       this.filterChange({ filter: 'selectedAges', value: this.selectedAges })
@@ -306,7 +331,7 @@ export default {
       }
     },
     applyFilters() {
-      for (let key of ['Ages', 'Days', 'DaysTimes', 'Weeks', 'Locations', 'Activities']) {
+      for (let key of ['Ages', 'Days', 'DaysTimes', 'Weeks', 'Locations', 'Activities', 'Months']) {
         if (!this.isEqual(this['selected' + key], this['initial' + key])) {
           this.$emit('filterChange', { filter: 'selected' + key, value: this['selected' + key] })
         }

@@ -31,12 +31,14 @@
         <Filters
           :data="data"
           :ages="ages"
+          :months="months"
           :days="days"
           :days-times="daysTimes"
           :weeks="weeks"
           :locations="locations"
           :activities="activities"
           :initial-ages="selectedAges"
+          :initial-months="selectedMonths"
           :initial-days="selectedDays"
           :initial-days-times="selectedDaysTimes"
           :initial-weeks="selectedWeeks"
@@ -170,12 +172,14 @@
           id="desktop-filters"
           :data="data"
           :ages="ages"
+          :months="months"
           :days="days"
           :days-times="daysTimes"
           :weeks="weeks"
           :locations="locations"
           :activities="activities"
           :initial-ages="selectedAges"
+          :initial-months="selectedMonths"
           :initial-days="selectedDays"
           :initial-days-times="selectedDaysTimes"
           :initial-weeks="selectedWeeks"
@@ -427,6 +431,7 @@ export default {
       defaults: {
         step: 'selectPath',
         selectedAges: [],
+        selectedMonths: [],
         selectedDays: [],
         selectedTimes: [],
         selectedDaysTimes: [],
@@ -444,7 +449,22 @@ export default {
       // The Home Branch ID from cookie.
       homeBranchId: this.getHomeBranchId(),
       // Results count for the Home Branch.
-      homeBranchResultsCount: null
+      homeBranchResultsCount: null,
+      // selectedMonths: [],
+      months: [
+        { value: 'January', label: 'Jan' },
+        { value: 'February', label: 'Feb' },
+        { value: 'March', label: 'Mar' },
+        { value: 'April', label: 'Apr' },
+        { value: 'May', label: 'May' },
+        { value: 'June', label: 'Jun' },
+        { value: 'July', label: 'Jul' },
+        { value: 'August', label: 'Aug' },
+        { value: 'September', label: 'Sep' },
+        { value: 'October', label: 'Oct' },
+        { value: 'November', label: 'Nov' },
+        { value: 'December', label: 'Dec' },
+      ],
     }
 
     // Identify daxko backend.
@@ -509,6 +529,7 @@ export default {
         weeks: this.step === 'selectWeeks' ? '' : this.selectedWeeks.join(','),
         locations: this.step === 'selectLocations' ? '' : this.selectedLocations.join(','),
         categories: this.step === 'selectActivities' ? '' : this.selectedActivities.join(','),
+        months: this.selectedMonths.join(','),
         page: this.selectedPage,
         sort: this.selectedSort,
         keywords: this.searchKeywords,
@@ -531,6 +552,7 @@ export default {
     resetPageString() {
       return [
         ...this.selectedAges,
+        ...this.selectedMonths,
         ...this.selectedDays,
         ...this.selectedTimes,
         ...this.selectedDaysTimes,
@@ -546,6 +568,7 @@ export default {
       return [
         this.step,
         ...this.selectedAges,
+        ...this.selectedMonths,
         ...this.selectedDays,
         ...this.selectedTimes,
         ...this.selectedDaysTimes,

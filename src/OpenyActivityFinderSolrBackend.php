@@ -182,6 +182,11 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
       $query->addCondition('af_ages_min_max', $ages, 'IN');
     }
 
+    if (!empty($parameters['months'])) {
+      $months = explode(',', rawurldecode($parameters['months']));
+      $query->addCondition('af_months', $months, 'IN');
+    }
+
     if (!empty($parameters['weeks'])) {
       $weeks = explode(',', rawurldecode($parameters['weeks']));
       $query->addCondition('af_weeks', $weeks, 'IN');
@@ -552,6 +557,15 @@ class OpenyActivityFinderSolrBackend extends OpenyActivityFinderBackend {
                   $facets_m[$f][$i]['count'] = $info['count'];
                 }
               }
+            }
+          }
+        }
+        // Pass counters to static week filter.
+        if ($f == 'static_months_filter' && isset($facets['af_months'])) {
+          $facets_m[$f][$i]['count'] = 0;
+          foreach ($facets['af_months'] as $info) {
+            if ('"' . $item['value'] . '"' == $info['filter']) {
+              $facets_m[$f][$i]['count'] = $info['count'];
             }
           }
         }
